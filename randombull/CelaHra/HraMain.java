@@ -28,8 +28,6 @@ public class HraMain {
         Taky mas 10 hp (zivotu).
         Hodne stesti
         """);
-
-
         System.out.println();
         return hrac;
     }

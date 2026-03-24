@@ -7,10 +7,6 @@ public class HraMain {
         Scanner sc = new Scanner(System.in);
 
         Hrac hrac = uvodJmeno();
-
-
-
-
     }
 
     private static Hrac uvodJmeno() {

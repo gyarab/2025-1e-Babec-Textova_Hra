@@ -11,7 +11,6 @@ public class HraMain {
 
         System.out.println(hrac.vysoky);
 
-
     }
 
     private static void uvodOtazky(Hrac hrac) {

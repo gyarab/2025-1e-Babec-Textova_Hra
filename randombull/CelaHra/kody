@@ -1,0 +1,3 @@
+    AB VAIl
+String AB = sc.nextLine();
+AB = vail(AB, sc);\

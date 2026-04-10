@@ -31,7 +31,7 @@ public class HraMain {
         if (hrac.vysoky = true){
             System.out.println("Jsi vysoky, takze davas damage - 2 hp");
             hrac.damage = 2;
-        }else{
+        }else if (hrac.vysoky = false){
             System.out.println("Jsi nizky, takze damage - 1 hp");
             hrac.damage = 1;
         }
@@ -80,13 +80,10 @@ public class HraMain {
         System.out.println();
         Scanner sc = new Scanner(System.in);
         String AB = sc.nextLine();
-        while (!AB.equals("a") && !AB.equals("A") &&  !AB.equals("b") &&  !AB.equals("B")) {
-            System.out.println("Napis A nebo B.");
-            AB = sc.nextLine();
-        }
-        if (AB.equals("a") || AB.equals("A")) {
+        AB = vail(AB, sc);
+        if (AB.equals("a") && AB.equals("A")) {
                 hrac.vysoky = true;
-            }else if (AB.equals("b") || AB.equals("B")) {
+            }else if (AB.equals("b") && AB.equals("B")) {
                 hrac.vysoky = false;
         }
 
@@ -102,6 +99,14 @@ public class HraMain {
 //                System.out.println("Napis A nebo B.");
 //            }
 //        }
+    }
+
+    private static String vail(String AB, Scanner sc) {
+        while (!AB.equals("a") && !AB.equals("A") &&  !AB.equals("b") &&  !AB.equals("B")) {
+            System.out.println("Napis A nebo B.");
+            AB = sc.nextLine();
+        }
+        return AB;
     }
 
 

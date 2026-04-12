@@ -5,22 +5,56 @@ import java.util.Random;
 public class HraMain {
     public static void main(String[] args) throws InterruptedException {
 
+        String wannaPlay = "a";
+
+        while(wannaPlay.equals("a")) {
+            Scanner sc = new Scanner(System.in);
+
+            Zombie zombie = zombie();
+
+            Skeleton skeleton = skeleton();
+
+
+            Hrac hrac = uvodJmeno();
+
+
+            uvodOtazky(hrac);
+
+
+            fight(hrac, skeleton);
+            wannaPlay = wannaPlay(sc, wannaPlay);
+        }
+    }
+
+    private static String wannaPlay(Scanner sc, String wannaPlay) {
+        System.out.println("Chces jeste jednou?");
+        System.out.println("""
+                A) Jo
+                B) Hell Nah
+                """);
+        String AB = sc.nextLine();
+        AB = vail(AB, sc);
+
+        if(AB.equals("A") || AB.equals("a")) {
+            wannaPlay = "a";
+        }
+        return wannaPlay;
+    }
+
+    private static Skeleton skeleton() {
+        Skeleton skeleton = new Skeleton();
+        skeleton.jmeno = "skeleton";
+        skeleton.hp = 5;
+        skeleton.damage = 5;
+        return skeleton;
+    }
+
+    private static Zombie zombie() {
         Zombie zombie = new Zombie();
         zombie.jmeno = "zombie";
         zombie.hp = 5;
         zombie.damage = 5;
-
-
-        Hrac hrac = uvodJmeno();
-
-        uvodOtazky(hrac);
-
-
-        fight(hrac, zombie);
-
-
-
-
+        return zombie;
     }
 
     private static void fight(Hrac hrac, Enemy enemy) {
@@ -34,8 +68,9 @@ public class HraMain {
             System.out.println("Jsi nizky, takze damage - 1 hp");
             hrac.damage = 1;
         }
-
-        for (int i = 1; i < 9999; i++) {
+        while (enemy.hp > 0 && hrac.hp > 0) {
+            System.out.println();
+            System.out.println("Ted mas " + hrac.hp);
             System.out.println();
             System.out.println(enemy.jmeno + " ted ma " + enemy.hp + " hp");
             System.out.println();
@@ -46,25 +81,33 @@ public class HraMain {
                     """);
 
             Scanner sc = new Scanner(System.in);
-            for (int d = 1; d <= 9999; d++) {
-                String AB = sc.nextLine();
-                if (AB.equals("a") || AB.equals("A")) {
-                    d = 9999;
-                    hrac.damage = hrac.damage + 1;
-                    enemy.hp = enemy.hp - hrac.damage;
-                    hrac.damage = hrac.damage - 1;
-                } else if (AB.equals("b") || AB.equals("B")) {
-                    enemy.hp = enemy.hp - hrac.damage;
-                    d = 9999;
-                } else {
-                    System.out.println("Napis A nebo B.");
-                }
+            String AB = sc.nextLine();
+            AB = vail(AB, sc);
+
+            if (AB.equals("a") || AB.equals("A")) {
+                hrac.damage = hrac.damage + 1;
+                enemy.hp = enemy.hp - hrac.damage;
+                hrac.damage = hrac.damage - 1;
+            } else {
+                enemy.hp = enemy.hp - hrac.damage;
             }
-            if (enemy.hp <= 0){
-                System.out.println(enemy.jmeno + " je mrtvej, hezky ty!!");
-                i = 9999;
-            }
+
+            Random random = new Random();
+
+            int randDam = random.nextInt(enemy.damage) + 1;
+
+            System.out.println();
+            System.out.println(enemy.jmeno + " ted na tebe jde zautocit a ubere ti " + randDam);
+            hrac.hp = hrac.hp - randDam;
         }
+        if (hrac.hp <= 0){
+            System.out.println("Damn si lowkey dead.");
+        }else if (enemy.hp <= 0){
+            System.out.println("Nice, zabil si " + enemy.jmeno);
+        }else{
+            System.out.println("Wow, vy jste se oba dva zabili.");
+        }
+
     }
 
     private static void uvodOtazky(Hrac hrac) {
@@ -79,10 +122,7 @@ public class HraMain {
         System.out.println();
         Scanner sc = new Scanner(System.in);
         String AB = sc.nextLine();
-        while (!AB.equals("a") && !AB.equals("A") &&  !AB.equals("b") &&  !AB.equals("B")) {
-            System.out.println("Napis A nebo B.");
-            AB = sc.nextLine();
-        }
+        AB = vail(AB, sc);
         if (AB.equals("a") || AB.equals("A")) {
                 hrac.vysoky = true;
             }else if (AB.equals("b") || AB.equals("B")) {
@@ -114,15 +154,16 @@ public class HraMain {
 
     private static Hrac uvodJmeno() throws InterruptedException {
         System.out.println();
-        printSlow("Hej bracho, vitej ve hre!");
+        System.out.println("Hej bracho, vitej ve hre!");
         System.out.println();
-        printSlow("Abych ti nemusel rikat bracho, jak se jmenujes?");
+        System.out.println("Abych ti nemusel rikat bracho, jak se jmenujes?");
         System.out.println();
         printSlow("|");
         printSlow("|");
         printSlow("V");
         System.out.println();
         Hrac hrac = new Hrac();
+        hrac.hp = 10;
         Scanner sc = new Scanner(System.in);
         hrac.jmeno = sc.nextLine();
         System.out.println();
@@ -133,7 +174,6 @@ public class HraMain {
         System.out.println();
         return hrac;
     }
-
 
 
     public static void printSlow(String text) throws InterruptedException {

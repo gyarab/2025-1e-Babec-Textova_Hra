@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class HraMain {
     public static void main(String[] args) throws InterruptedException {
-
         String wannaPlay = "a";
 
         while(wannaPlay.equals("a")) {
@@ -22,6 +21,7 @@ public class HraMain {
 
 
             fight(hrac, skeleton);
+
             wannaPlay = wannaPlay(sc, wannaPlay);
         }
     }
@@ -37,6 +37,8 @@ public class HraMain {
 
         if(AB.equals("A") || AB.equals("a")) {
             wannaPlay = "a";
+        }else{
+            wannaPlay = "b";
         }
         return wannaPlay;
     }
@@ -96,15 +98,25 @@ public class HraMain {
 
             int randDam = random.nextInt(enemy.damage) + 1;
 
-            System.out.println();
-            System.out.println(enemy.jmeno + " ted na tebe jde zautocit a ubere ti " + randDam);
-            hrac.hp = hrac.hp - randDam;
+
+            if (enemy.hp > 0){
+                hrac.hp = hrac.hp - randDam;
+                System.out.println();
+                if (hrac.hp <= 0){
+                    System.out.println(enemy.jmeno + " ti ubral " + randDam + " a tim te zabil");
+                }else{
+                    System.out.println(enemy.jmeno + " ted na tebe jde zautocit a ubere ti " + randDam);
+                }
+            }
         }
         if (hrac.hp <= 0){
+            System.out.println();
             System.out.println("Damn si lowkey dead.");
         }else if (enemy.hp <= 0){
+            System.out.println();
             System.out.println("Nice, zabil si " + enemy.jmeno);
         }else{
+            System.out.println();
             System.out.println("Wow, vy jste se oba dva zabili.");
         }
 
@@ -151,7 +163,6 @@ public class HraMain {
         return AB;
     }
 
-
     private static Hrac uvodJmeno() throws InterruptedException {
         System.out.println();
         System.out.println("Hej bracho, vitej ve hre!");
@@ -174,7 +185,6 @@ public class HraMain {
         System.out.println();
         return hrac;
     }
-
 
     public static void printSlow(String text) throws InterruptedException {
         for (char c : text.toCharArray()) {

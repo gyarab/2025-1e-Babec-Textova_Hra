@@ -5,4 +5,5 @@ public class Entita {
     int hp;
     int damage;
 
+
 }

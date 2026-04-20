@@ -4,6 +4,4 @@ public class Entita {
     String jmeno;
     int hp;
     int damage;
-
-
 }

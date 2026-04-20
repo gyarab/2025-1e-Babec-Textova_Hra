@@ -21,3 +21,19 @@ Scanner sc = new Scanner(System.in);
             if (enemy.hp <= 0){
                 System.out.println(enemy.jmeno + " je mrtvej, hezky ty!!");
                 i = 9999;
+
+
+
+
+        //        for (int i = 1; i < 9999; i++) {
+//            String AB = sc.nextLine();
+//            if (AB.equals("a") || AB.equals("A")) {
+//                hrac.vysoky = true;
+//                i = 9999;
+//            }else if (AB.equals("b") || AB.equals("B")) {
+//                hrac.vysoky = false;
+//                i = 9999;
+//            }else{
+//                System.out.println("Napis A nebo B.");
+//            }
+//        }

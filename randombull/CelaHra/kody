@@ -20,6 +20,3 @@ Scanner sc = new Scanner(System.in);
             if (enemy.hp <= 0){
                 System.out.println(enemy.jmeno + " je mrtvej, hezky ty!!");
                 i = 9999;
-
-
-                hmm

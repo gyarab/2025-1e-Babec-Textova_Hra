@@ -2,7 +2,6 @@
 String AB = sc.nextLine();
 AB = vail(AB, sc);
 
-
 Scanner sc = new Scanner(System.in);
             for (int d = 1; d <= 9999; d++) {
                 String AB = sc.nextLine();

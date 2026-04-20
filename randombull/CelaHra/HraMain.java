@@ -19,7 +19,6 @@ public class HraMain {
 
             uvodOtazky(hrac);
 
-
 //            fight(hrac, skeleton);
 
             wannaPlay = wannaPlay(sc, wannaPlay);

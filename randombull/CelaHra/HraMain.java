@@ -13,11 +13,13 @@ public class HraMain {
 
             Skeleton skeleton = skeleton();
 
-
             Hrac hrac = uvodJmeno();
 
-
             uvodOtazky(hrac);
+
+            scena1(hrac);
+
+
 
 //            fight(hrac, skeleton);
 
@@ -25,22 +27,6 @@ public class HraMain {
         }
     }
 
-    private static String wannaPlay(Scanner sc, String wannaPlay) {
-        System.out.println("Chces jeste jednou?");
-        System.out.println("""
-                A) Jo
-                B) Hell Nah
-                """);
-        String AB = sc.nextLine();
-        AB = vail(AB, sc);
-
-        if(AB.equals("A") || AB.equals("a")) {
-            wannaPlay = "a";
-        }else{
-            wannaPlay = "b";
-        }
-        return wannaPlay;
-    }
 
 
     private static Hrac uvodJmeno() throws InterruptedException {
@@ -72,40 +58,72 @@ public class HraMain {
     private static void uvodOtazky(Hrac hrac) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Jeste mam par otazek na tebe.");
         System.out.println();
-        System.out.println("Kolik ti je?");
+        System.out.println("Jo, jeste neco. Chces byt spis chytry nebo silny nebo plny charisma?");
         System.out.println();
-        hrac.vek = sc.nextInt();
+        System.out.println("A) Chytry    B) Silny   C) Charisma");
+        System.out.println();
+        String ABC = sc.nextLine();
+        ABC = vailC(ABC, sc);
 
-        if (hrac.vek > 100) {
-            System.out.println();
-            System.out.println("Aha, wow, tak jo.");
-            System.out.println();
-        }
-
-        System.out.println();
-        System.out.println("Jo, jeste neco. Chces byt spis chytry nebo silny?");
-        System.out.println();
-        System.out.println("A) Chytry    B) Silny");
-        System.out.println();
-        String AB = sc.nextLine();
-        AB = vail(AB, sc);
-
-        if((AB.equalsIgnoreCase("a")) == true) {
-        hrac.zdatny = true;
+        if((ABC.equalsIgnoreCase("a")) == true) {
+            hrac.zdatny = true;
             System.out.println("Mozek se ti zvetsil nahoru. Ted vyhrajes kamen,nuzky, papir s Einsteinem.");
-        }else {
+        }else if ((ABC.equalsIgnoreCase("b")) == true) {
             hrac.bojovnik = true;
             hrac.damage = hrac.damage + 2;
             System.out.println("Zvetsili se ti bicepsy minimalne o dva centimetry a ted se te boji i pololetka z matiky.");
-
+        }else if ((ABC.equalsIgnoreCase("c")) == true) {
+            hrac.charisma = true;
+            System.out.println("Mas vetsi oboci a ted dokazes premluvit Davida Gogginse at vezme tu lod.");
         }
-
-
 
     }
 
+    private static void scena1(Hrac hrac){  // Chce si udelat mec?
+        Scanner sc = new Scanner(System.in);
+        System.out.println();
+        System.out.println("Jak se prochazis lesem vidis na zemi zniceny mec.");
+        System.out.println("Napada te ho opravit, ale je tam risk.");
+        System.out.println();
+
+        int sanceMec;
+        if(hrac.zdatny == true) {
+            sanceMec = 2;
+        }else {
+            sanceMec = 5;
+        }
+
+
+        System.out.println("Mas sanci 1:" +  sanceMec + " , ze ho opravis.");
+        System.out.println("Jestli ne, tak si uberes zivot.");
+        System.out.println("Jestli jo, tak mas mec (tvuj damage +2).");
+        System.out.println();
+        System.out.println("A) Pokusit se o opravu      B) Kaslat na to");
+        System.out.println();
+
+        String AB = sc.nextLine();
+        AB = vail(AB, sc);
+
+        Random random = new Random();
+        int rand = random.nextInt(sanceMec) + 1;
+
+        if(AB.equalsIgnoreCase("a") == true) {
+            if (rand == 1) {
+                hrac.mec = true;
+                System.out.println("Mas mec kamo.");
+            }else{
+                hrac.klacek = true;
+                hrac.hp = hrac.hp - 1;
+                System.out.println("Bohuzel amigo, porezal ses, ale mas klacek :D");
+            }
+        }else if (AB.equalsIgnoreCase("b") == true) {
+            hrac.klacek = true;
+            System.out.println("Vykaslal ses na mec a vzal misto toho klacek.");
+        }
+
+
+    }
 
     private static Skeleton skeleton() {
         Skeleton skeleton = new Skeleton();
@@ -127,13 +145,7 @@ public class HraMain {
 //        System.out.println();
 //        System.out.println("Jdes fightit s " + enemy.jmeno);
 //        System.out.println();
-//        if (hrac.vysoky == true){
-//            System.out.println("Jsi vysoky, takze davas damage - 2 hp");
-//            hrac.damage = 2;
-//        }else if (hrac.vysoky == false){
-//            System.out.println("Jsi nizky, takze damage - 1 hp");
-//            hrac.damage = 1;
-//        }
+//
 //        while (enemy.hp > 0 && hrac.hp > 0) {
 //            System.out.println();
 //            System.out.println("Ted mas " + hrac.hp);
@@ -192,6 +204,13 @@ public class HraMain {
         }
         return AB;
     }
+    private static String vailC(String ABC, Scanner sc) {
+        while (!ABC.equals("a") && !ABC.equals("A") &&  !ABC.equals("b") &&  !ABC.equals("B") &&  !ABC.equals("c") &&  !ABC.equals("C")) {
+            System.out.println("Napis A nebo B nebo C.");
+            ABC = sc.nextLine();
+        }
+        return ABC;
+    }
     public static void printSlow(String text) throws InterruptedException {
         for (char c : text.toCharArray()) {
             System.out.print(c);
@@ -199,6 +218,24 @@ public class HraMain {
         }
         System.out.println();
     }
+    private static String wannaPlay(Scanner sc, String wannaPlay) {
+        System.out.println("Chces jeste jednou?");
+        System.out.println("""
+                A) Jo
+                B) Hell Nah
+                """);
+        String AB = sc.nextLine();
+        AB = vail(AB, sc);
+
+        if(AB.equals("A") || AB.equals("a")) {
+            wannaPlay = "a";
+        }else{
+            wannaPlay = "b";
+        }
+        return wannaPlay;
+    }
+
+
 
 }
 

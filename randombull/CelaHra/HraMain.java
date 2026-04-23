@@ -1,4 +1,5 @@
 package randombull.randombull.CelaHra;
+
 import java.util.Scanner;
 import java.util.Random;
 
@@ -8,6 +9,7 @@ public class HraMain {
 
         while(wannaPlay.equals("a")) {
             Scanner sc = new Scanner(System.in);
+
 
             Zombie zombie = zombie();
 
@@ -19,8 +21,13 @@ public class HraMain {
 
             scena1(hrac);
 
+            scena2(hrac);
 
-
+            if (hrac.barkral == 1){
+                scena21(hrac); //Bar
+            }else if (hrac.barkral == 2){
+                scena22(hrac); //Kralovstvi
+            }
 //            fight(hrac, skeleton);
 
             wannaPlay = wannaPlay(sc, wannaPlay);
@@ -80,9 +87,7 @@ public class HraMain {
 
     }
 
-    private static void scena1(Hrac hrac)
-
-        {  // Chce si udelat mec?
+    private static void scena1(Hrac hrac) {  // Chce si udelat mec?
         Scanner sc = new Scanner(System.in);
         System.out.println();
         System.out.println("Jak se prochazis lesem vidis na zemi zniceny mec.");
@@ -227,6 +232,56 @@ public class HraMain {
 
     }
 
+    private static void scena2(Hrac hrac){//Bar nebo Kralovstvi
+        System.out.println();
+        System.out.println("Jdes takhle lesem a vidis dve znacky, jedna ukazuje smer bar a druha do kralovstvi.");
+        System.out.println("Kam pujdes?");
+        System.out.println();
+        System.out.println("A) Bar            B) Kralovstvi");
+
+        Scanner sc = new Scanner(System.in);
+        String AB = sc.nextLine();
+        AB = vail(AB, sc);
+
+        if (AB.equalsIgnoreCase("a") == true) {
+            hrac.barkral = 1;
+        } else if (AB.equalsIgnoreCase("b") == true) {
+            hrac.barkral = 2;
+        }
+    }
+
+    private static void scena21(Hrac hrac){//Bar
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println();
+        System.out.println("Barman: Dobry den, vitejte v baru u Lukase Pod Dubem.");
+        System.out.println("Chcete si neco dat?");
+        System.out.println("A) Ano            B) Ne");
+        System.out.println();
+
+        String AB = sc.nextLine();
+        AB = vail(AB, sc);
+
+        if (AB.equalsIgnoreCase("a") == true) {//Jde si dat
+
+
+
+
+
+        } else if (AB.equalsIgnoreCase("b") == true) {//Kasle na to
+
+
+        }
+
+
+
+
+    }
+
+    private static void scena22(Hrac hrac){//Kralovstvi
+
+    }
+
     private static Skeleton skeleton() {
         Skeleton skeleton = new Skeleton();
         skeleton.jmeno = "skeleton";
@@ -312,6 +367,42 @@ public class HraMain {
             ABC = sc.nextLine();
         }
         return ABC;
+    }
+    private static String vailD(String ABCD, Scanner sc){
+        while (!ABCD.equals("a") && !ABCD.equals("A") &&  !ABCD.equals("b") &&  !ABCD.equals("B") &&  !ABCD.equals("c") &&  !ABCD.equals("C")) {
+            System.out.println("Napis A nebo B nebo C nebo D.");
+            ABCD = sc.nextLine();
+        }
+        return ABCD;
+    }
+    private static void barvail(String AB, Scanner sc){
+        System.out.println();
+        System.out.println("Date si piti nebo jidlo?");
+        System.out.println("A) Piti            B) Jidlo");
+        System.out.println();
+
+        if (AB.equalsIgnoreCase("a") == true) {//Jde si dat Piti
+
+
+
+        } else if (AB.equalsIgnoreCase("b") == true) {//Jde si dat Jidlo
+
+
+
+        }
+    }
+
+
+    private static void maPrachy(Hrac hrac, PitiJidlo pitiJidlo){
+        if(hrac.penize >= pitiJidlo.cena){
+            hrac.penize = hrac.penize - pitiJidlo.cena;
+            hrac.procentoOpilost = hrac.procentoOpilost + pitiJidlo.procentoOpilosti;
+            hrac.procentoPlnosti = hrac.procentoPlnosti + pitiJidlo.procentoPlnosti;
+
+        }else{
+
+        }
+
     }
     public static void printSlow(String text) throws InterruptedException {
         for (char c : text.toCharArray()) {

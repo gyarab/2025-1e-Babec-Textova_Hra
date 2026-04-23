@@ -3,6 +3,7 @@ package randombull.randombull.CelaHra;
 public class Hrac extends Entita {
 
     int procentoOpilost = 0;
+    int procentoPlnosti = 0;
     int penize = 20;
 
     Boolean mec = false;
@@ -10,6 +11,7 @@ public class Hrac extends Entita {
     Boolean bojovnik = false;
     Boolean charisma = false;
     Boolean klacek = false;
+    int barkral; //bar = 1   kral = 2
 
 
 

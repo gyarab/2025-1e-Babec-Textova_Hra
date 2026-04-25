@@ -395,6 +395,7 @@ public class HraMain {
         String AB = sc.nextLine();
         AB = vail(AB, sc);
 
+
         if (AB.equalsIgnoreCase("a") == true) {
             System.out.println();
             System.out.println("Nekdo ze zadu: oooh tos nemel, ted te Arsen zabije.");

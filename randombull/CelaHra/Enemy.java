@@ -27,5 +27,13 @@ class Arsen extends Enemy{
         pady = 3;
     }
 }
+class drak extends Enemy{
+    public drak(){
+        jmeno = "drak";
+        hp = 45;
+        damage = 10;
+        pady = 4;
+    }
+}
 
 

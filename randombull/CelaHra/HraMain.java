@@ -9,7 +9,7 @@ public class HraMain {
         int fight = 0;
         boolean poprve = true;
 
-        while(wannaPlay.equals("a")) {
+        while (wannaPlay.equals("a")) {
             clearScreen();
             System.out.println("=============NOVA HRA=============");
 
@@ -23,25 +23,27 @@ public class HraMain {
 
             scena2(hrac, sc);
 
-            if (hrac.barkral == 1){
+            if (hrac.barkral == 1) {
                 fight = scena21(hrac, fight); //Bar
                 if (fight == 1) {
                     fight11(hrac, sc);//smecka vlku
-                }else if (fight == 2) {
+                } else if (fight == 2) {
                     fight12(hrac, sc);
                 }
-            }else if (hrac.barkral == 2){
-                scena22(hrac); //Kralovstvi
+            } else if (hrac.barkral == 2) {
+                fight = scena22(hrac, sc, fight); //Kralovstvi
+                if (fight == 1) {
+                    fight21(hrac, sc);//drak
+                } else if (fight == 2) {
+                    vezeni(hrac, sc);//vezeni
+                }
             }
-
-
-
-
 
 
             wannaPlay = wannaPlay(sc, wannaPlay);
             poprve = false;
         }
+        System.out.println("Dik, ze sis zahral, verim ze te to bavilo.");
     }
 
 
@@ -72,7 +74,6 @@ public class HraMain {
         }
         return hrac;
     }
-
     private static void uvodOtazky(Hrac hrac, Scanner sc) {
 
         System.out.println();
@@ -270,10 +271,10 @@ public class HraMain {
         }else{
             System.out.println();
             System.out.println("Prijdes do baru a sednes si do rohu.");
-            System.out.println("Prijde k tobe barman.");
+            System.out.println("Prijde k tobe barmanka.");
         }
 
-        System.out.println("Barman: Dobry den, vitejte v baru u Lukase Pod Dubem.");
+        System.out.println("Barmanka: Dobry den, vitejte v baru u Lukase Pod Dubem.");
         System.out.println("Chcete si neco dat?");
         System.out.println("A) Ano            B) Ne");
         System.out.println();
@@ -349,8 +350,63 @@ public class HraMain {
 
         return fight;
     } //bar
-    private static void scena22(Hrac hrac){//Kralovstvi
+    private static int scena22(Hrac hrac, Scanner sc, int fight) throws InterruptedException {//Kralovstvi
+        System.out.println();
+        System.out.println("Hned jak prijdes do kralovstvi pribehne za tebou nizsi zena: nejste vy " + hrac.jmeno + "?");
+        System.out.println(hrac.jmeno + ": no, jo.");
+        System.out.println("Nizsi zena: pojdte za mnou.");
+        System.out.println("Prijdes do hradu, kde sidli kral Alfonso Fernandovsky.");
+        System.out.println("Alfonso: diky Viol, ze si ho privedla sem.");
+        System.out.println("Viol: v pohode. Pak Viol odesla.");
+        System.out.println();
+        System.out.println("Alfonso: pozval jsem si te, abys pomohl tomuhle kralovstvi.");
+        System.out.println("Alfonso: Nedaleko odsud je obrovsky drak, ktery jde sem a my potrebujeme TEBE " + hrac.jmeno +".");
+        System.out.println("Alfonso: jdes do toho?");
+        if(hrac.zdatny == true){
+            System.out.println("A) 'Podle mych vypoctu to zni jako dobry napad.'           B) 'Podle mych vypoctu je nemozny to prezit.'");
+        }else if (hrac.charisma == true){
+            System.out.println("A) 'To si piste, ze tam jdu.'           B) 'Dneska je vikend, sorry bracho.'");
+        }else if (hrac.bojovnik){
+            System.out.println("A) 'Zvednu ho lehce jako 5 kilogramovou cinku.'           B) 'Zrovna vcera jsem byl ve fitku, spis ne.'");
+        }
+        String AB = sc.nextLine();
+        AB = vail(AB, sc);
 
+        if (AB.equalsIgnoreCase("a") == true) {// jde fightit s drakem
+            System.out.println();
+            System.out.println("Alfonso: to velice rad slysim. Predtim ale musis jit k nasemu kouzelnikovi s elixiry: k Honzovi Findlerovi.");
+            System.out.println("A) 'Tak jo, jdu tam.'            B)'Asi neni potreba.'");
+            AB = sc.nextLine();
+            AB = vail(AB, sc);
+            if (AB.equalsIgnoreCase("a") == true) {
+                obchodvail(AB, sc, hrac);
+            }else if (AB.equalsIgnoreCase("b") == true) {
+                System.out.println("Alfonso: aha, chrabry clovek, tak uvidime co dokazes.");
+            }
+            fight = 1;
+        }else if (AB.equalsIgnoreCase("b") == true) {// nejde fightit s drakem
+            System.out.println();
+            System.out.println("Alfonso: aha, chapu.");
+            printSlow("V pohode......tak jdes do vezeni.");
+            if(hrac.charisma == true){
+                System.out.println("A) 'Coze??'          B) 'Aha a musim?'");
+                System.out.println();
+                AB = sc.nextLine();
+                AB = vail(AB, sc);
+
+                switch (AB) {
+                    case "a", "A":
+                        System.out.println("Alfonso: bohuzel, nechces bojovat tak jdes do vezeni, hosi vezmete si ho!!!");
+                        break;
+                    case "b", "B":
+                        System.out.println("Alfonso: jako celkem jo, sorry kamo. Straazzee!!!!");
+                        break;
+                }
+            }
+
+            fight = 2;
+        }
+        return fight;
     } // kralovstvi
 
     private static void fight11(Hrac hrac, Scanner sc){//fight smecka vlku
@@ -426,6 +482,147 @@ public class HraMain {
         }
 
     }
+    private static void fight21(Hrac hrac, Scanner sc) throws InterruptedException {
+        System.out.println();
+        System.out.println("Najednou slysis kroky, velky, nebezpecny kroky.");
+        System.out.println("Alfonso: je tady, musime ven.");
+        System.out.println("Jdes ven a vidis ho tam.");
+        printSlow("Toho.....draka.");
+        System.out.println("Alfonso: hodne stesti.");
+        drak drak = new drak();
+        fight(hrac,drak,sc);
+    }
+    private static void vezeni (Hrac hrac, Scanner sc) throws InterruptedException {
+        System.out.println();
+        System.out.println("Hodili te do vezeni.");
+        System.out.println("Vezensky dozorce: hej ty.");
+        System.out.println(hrac.jmeno + ": ja?");
+        System.out.println("Vezensky dozorce: a je tady jeste nekdo?");
+        System.out.println(hrac.jmeno + ": no.... ne");
+        System.out.println("Vezensky dozorce: tak jenom abys vedel, zitra budes povesen, cus.");
+        System.out.println("Pak dozorce odesel.");
+        System.out.println();
+
+        System.out.println("Sednes si smutne na zem a uvidis lzicku a napadne te utect.");
+        System.out.println("Zkusis to?");
+        System.out.println("A) No jiste ze jo            B) Asi v pohode, trvalo by to a tak, takze ne");
+        System.out.println();
+        String AB = sc.nextLine();
+        AB = vail(AB, sc);
+
+        if(AB.equalsIgnoreCase("a") == true) {
+            System.out.println();
+            System.out.println("Beres lzicku a kopes a kopes a kopes.");
+            System.out.println();
+        }else if (AB.equalsIgnoreCase("b") == true) {
+            System.out.println();
+            System.out.println("Probudis se druhy den, berou te dva dozorci ven.");
+            printSlow("Najednou mas na sobe lano a............");
+            System.out.println("Probudis se den predtim a reknes si, ze radsi zkusis utect.");
+            System.out.println("Beres lzicku a kopes a kopes a kopes.");
+            System.out.println();
+        }
+
+        System.out.println("V jeden moment se dokopes do jeskyne a zapali se pochodne, ktere vedou po chodbe.");
+        System.out.println("Hned pote slysis hlas: mam na tebe tri otazky.");
+        System.out.println("Jsou-li zodpovezeny spravne jsi volny.");
+        System.out.println("ALE jsou-li zodpovezeny spatne, jsi mrtev.");
+        System.out.println();
+        if(hrac.zdatny == true){
+            System.out.println("A) Jestli E = mc2 tak jdu do toho          B) To uz radsi vypocitam pi");
+        }else if (hrac.charisma == true){
+            System.out.println("A) 'Hele amigo, jdu do toho'           B) 'Ja bych sel, ale mam lepsi veci na praci'");
+        }else if (hrac.bojovnik){
+            System.out.println("A) 'Zvedl jsem 150 na benchi, tohle myslim zvladnu'           B) 'To uz bych radsi mel leg day, ne diky'");
+        }
+        AB = sc.nextLine();
+        AB = vail(AB, sc);
+
+        if(AB.equalsIgnoreCase("a") == true) {
+            System.out.println("Hlas: tak jdeme na to.");
+        }else if (AB.equalsIgnoreCase("b") == true) {
+            System.out.println();
+            System.out.println("Hlas: Ale no tak, nikdo nechce. Bude sranda.");
+            System.out.println(hrac.jmeno + ": tak jo.");
+            System.out.println("Hlas: tak jdeme na to.");
+        }
+
+        System.out.println("Hlas: prvni otazka");
+        System.out.println("Kolik minut ma den?");
+        System.out.println("A) 1095     B) 2105       C) 1440");
+        System.out.println();
+
+        String ABC = sc.nextLine();
+        ABC = vailC(ABC, sc);
+
+        if(ABC.equalsIgnoreCase("a") == true) {
+            printSlow("Hlas: je to........");
+            System.out.println("SPATNE");
+            System.out.println("Najednou vsechno zacne horet a tys shorel.");
+        }else if (ABC.equalsIgnoreCase("b") == true) {
+            printSlow("Hlas: je to........");
+            System.out.println("SPATNE");
+            System.out.println("Najednou vsechno zacne horet a tys shorel.");
+        }else if (ABC.equalsIgnoreCase("c") == true) {
+            printSlow("Hlas: je to........");
+            System.out.println("Spravne");
+
+            System.out.println();
+            System.out.println("Hlas: ted druha otazka");
+            System.out.println("Jake plemeno kocek nema srst?");
+            System.out.println("A) Siamska kocka     B) Sphynx       C) Barmska kocka");
+            System.out.println();
+
+            ABC = sc.nextLine();
+            ABC = vailC(ABC, sc);
+
+            if(ABC.equalsIgnoreCase("a") == true) {
+                printSlow("Hlas: je to........");
+                System.out.println("SPATNE");
+                System.out.println("Najednou vsechno zacne horet a tys shorel.");
+            }else if (ABC.equalsIgnoreCase("b") == true) {
+                printSlow("Hlas: je to........");
+                System.out.println("Spravne");
+                System.out.println();
+                System.out.println("Hlas: a ted posledni a nejtezsi.");
+                System.out.println("Jak se nazývá strach z květin?");
+                System.out.println("A) Geliofobie     B) Antofobie       C) Florofobie");
+                System.out.println();
+
+                ABC = sc.nextLine();
+                ABC = vailC(ABC, sc);
+
+                if(ABC.equalsIgnoreCase("a") == true) {
+                    printSlow("Hlas: je to........");
+                    System.out.println("SPATNE");
+                    System.out.println("Najednou vsechno zacne horet a tys shorel.");
+
+                }else if (ABC.equalsIgnoreCase("b") == true) {
+                    printSlow("Hlas: je to........");
+                    System.out.println("Spravne");
+                    System.out.println("Hlas: dokazal si to, gratuluji.");
+                    System.out.println("Utekl si a venku uvidel jak drak nici kralovstvi.");
+                    System.out.println();
+
+                }else if (ABC.equalsIgnoreCase("c") == true) {
+                    printSlow("Hlas: je to........");
+                    System.out.println("SPATNE");
+                    System.out.println("Najednou vsechno zacne horet a tys shorel.");
+                }
+
+            }else if (ABC.equalsIgnoreCase("c") == true) {
+                printSlow("Hlas: je to........");
+                System.out.println("SPATNE");
+                System.out.println("Najednou vsechno zacne horet a tys shorel.");
+            }
+
+
+        }
+
+
+
+
+    }
     private static void fight(Hrac hrac, Enemy enemy,Scanner sc) {
         System.out.println();
         if (hrac.hp > 0) {
@@ -438,6 +635,9 @@ public class HraMain {
                     break;
                 case 3:
                     System.out.println("Jdes fightit s Arsenem.");
+                    break;
+                case 4:
+                    System.out.println("Jdes fightit s velkym drakem.");
                     break;
 
             }
@@ -545,6 +745,12 @@ public class HraMain {
                         System.out.println("Arsen te vzal, vyhodil te z okna, pozdeji na tebe pristal stul, ktery te zabil.");
                         System.out.println("Vsichni si te ted pamatuji jako clovicka, ktery nastval Arsena a jmenoval se " + hrac.jmeno);
                         break;
+                    case 4:
+                        System.out.println();
+                        System.out.println("Drak vzletel, pripravil se a spalil te svym ohnivym dechem.");
+                        System.out.println("Kralovstvi Alfonsa dobojovalo draka, ale na tebe nikdy nezapomneli.");
+                        System.out.println("Dokonce i po 150 letech se vypravi legendy o statecnem hrdinovi zvanem: " + hrac.jmeno);
+                        break;
                 }
             } else if (enemy.hp <= 0) {
                 switch (enemy.pady) {
@@ -563,7 +769,11 @@ public class HraMain {
                         System.out.println("Poslednim uderem si zabil Arsena.");
                         System.out.println();
                         break;
-
+                    case 4:
+                        System.out.println();
+                        System.out.println("Poslednim uderem si zabil draka.");
+                        System.out.println();
+                        break;
                 }
             } else {
                 switch (enemy.pady) {
@@ -587,6 +797,16 @@ public class HraMain {
                             System.out.println("Hodil si na Arsena klacek, ten se zabodl do jeho hrudi, ale on uz bezel za tebou a nez dobehl tak zemrel a spadl na tebe.");
                         }
                         System.out.println("Kvuli tomu jste oba dva mrtvy. Trvalo tri tydny nez se ten bar uklidil, ale nikdy se nezapomnelo jmeno " + hrac.jmeno);
+                        System.out.println();
+                        break;
+                    case 4:
+                        System.out.println();
+                        if (hrac.mec == true){
+                            System.out.println("Hodil si na draka mec, mezitim co on na tebe vystrelil ohen. Trefil si ho, ale on te spalil.");
+                        }else {
+                            System.out.println("Hodil si na draka klacek, mezitim co on na tebe vystrelil ohen. Trefil si ho, ale on te spalil.");
+                        }
+                        System.out.println("Kvuli tomu jste oba dva mrtvy. Lidi i po 150 letech zpivaji o slavnem a nebojacnem hrdinovi zvanem: " + hrac.jmeno);
                         System.out.println();
                         break;
                 }
@@ -621,7 +841,7 @@ public class HraMain {
         String chcesJeste = "a";
         while(chcesJeste.equalsIgnoreCase("a")) {
             System.out.println();
-            System.out.println("Date si piti nebo jidlo?");
+            System.out.println("Barmanka: Date si piti nebo jidlo?");
             System.out.println("A) Piti            B) Jidlo");
             System.out.println();
             AB = sc.nextLine();
@@ -664,6 +884,28 @@ public class HraMain {
             chcesJeste = vail(chcesJeste, sc);
         }
     }
+    private static void obchodvail(String AB, Scanner sc, Hrac hrac){
+        String chcesJeste = "a";
+        System.out.println("Honza: vitejte v mem obchode s elixiry. Jaky elixir byste chteli?");
+        while(chcesJeste.equalsIgnoreCase("a")) {
+            System.out.println("A)Elixir Arsena    B) Elixir Pavla    C) Elixir Denyse       D) Elixir Maximiliana");
+            System.out.println("za 10 zlataku       za 10 zlataku         za 15 zlataku          za 40 zlataku ");
+            String ABCD = sc.nextLine();
+            ABCD = vailD(ABCD, sc);
+
+            Elixir elixir = coBrat(ABCD);
+            muzeKoupit(hrac, elixir);
+
+            System.out.println();
+            System.out.println("Chces jeste neco?");
+            System.out.println("A) Ano            B) Ne");
+            System.out.println();
+            chcesJeste = sc.nextLine();
+            chcesJeste = vail(chcesJeste, sc);
+        }
+        System.out.println();
+        System.out.println("Honza: nashledanou, prijdte jeste!!!");
+    }
 
 
     private static void maPrachy(Hrac hrac, PitiJidlo pitiJidlo){
@@ -675,6 +917,7 @@ public class HraMain {
             System.out.println();
         }else{
             System.out.println("Nemas na to prachy.");
+            System.out.println("Mas jenom " + hrac.penize + " zlataku");
         }
     }
     private static PitiJidlo coZrat(int zradlo, String ABCD){
@@ -711,6 +954,36 @@ public class HraMain {
             }
         }
         return pitiJidlo;
+    }
+    private static Elixir coBrat(String ABCD){
+        Elixir elixir = new Elixir();
+            switch(ABCD){
+                case "a", "A" :
+                    elixir = new elixirArsena();
+                    break;
+                case "b", "B" :
+                    elixir = new elixirPavla();
+                    break;
+                case "c", "C" :
+                    elixir = new elixirDenyse();
+                    break;
+                case "d", "D":
+                    elixir = new elixirMaximiliana();
+                    break;
+            }
+        return elixir;
+    }
+    private static void muzeKoupit (Hrac hrac, Elixir elixir){
+        if(hrac.penize >= elixir.cena) {
+            hrac.penize = hrac.penize - elixir.cena;
+            hrac.damage = hrac.damage + elixir.damage;
+            hrac.hp = hrac.hp + elixir.hp;
+            System.out.println("Koupil sis " + elixir.jmeno + ". Dostal si +" + elixir.hp + "hp a +" + elixir.damage + "damage.");
+            System.out.println("Utratil si " + elixir.cena + " zl. Mas " + hrac.penize + " zl.");
+        }else{
+        System.out.println("Nemas na to prachy.");
+        }
+
     }
 
     public static void printSlow(String text) throws InterruptedException {

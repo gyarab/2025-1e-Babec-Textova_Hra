@@ -6,6 +6,4 @@ public class PitiJidlo {
     int cena;
     int procentoOpilosti;
     int procentoPlnosti;
-
-
 }

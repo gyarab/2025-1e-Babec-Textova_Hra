@@ -8,6 +8,4 @@ public class pivo extends PitiJidlo {
         procentoOpilosti = 7;
         procentoPlnosti = 2;
     }
-
-
 }
